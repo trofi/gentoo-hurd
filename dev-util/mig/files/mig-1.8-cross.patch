@@ -1,0 +1,17 @@
+Allow passing arbitrary CC to survive bootstrap before we get cross-gcc.
+diff --git a/configure.ac b/configure.ac
+index 14dc291..ecb42c6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -46,10 +46,7 @@ AC_FUNC_VPRINTF
+   TARGET_CC='${CC}'
+ else]
+   AC_CHECK_PROG([TARGET_CC], [$target_alias-gcc], [$target_alias-gcc], [none])
+-  [if [ x"$TARGET_CC" != x"$target_alias"-gcc ]; then]
+-    AC_MSG_ERROR([could not find a compiler for the target you requested])
+-  [fi
+-fi]
++[fi]
+ dnl These two are just for the user's convenience.
+ AC_SUBST([TARGET_CPPFLAGS])
+ AC_SUBST([TARGET_CFLAGS])
