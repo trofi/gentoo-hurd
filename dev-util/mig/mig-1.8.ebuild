@@ -17,6 +17,10 @@ PATCHES=("${FILESDIR}"/${P}-cross.patch)
 
 CTARGET=${CATEGORY#cross-}
 
+is_crosscompile() {
+	[[ ${CHOST} != ${CTARGET} ]]
+}
+
 src_prepare() {
 	default
 	eautoconf
@@ -35,6 +39,17 @@ src_configure() {
 		)
 	fi
 	econf "${conf_args[@]}"
+}
+
+src_install() {
+	default
+
+	if is_crosscompile ; then
+		# avoid installing docs into common location
+		# to allow multiple hurd targets
+		rm -rfv "${D}"/usr/share/doc || die
+		rmdir "${D}"/usr/share || die
+	fi
 }
 
 src_test() {
