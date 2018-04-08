@@ -55,5 +55,10 @@ src_install() {
 	if is_crosscompile ; then
 		# On hurd gcc expects system headers to be in /include, not /usr/include
 		dosym usr/include /usr/${CTARGET}/include
+
+		# avoid installing manpages into common location
+		# to allow multiple hurd targets
+		rm -rfv "${D}"/usr/share/info || die
+		rmdir "${D}"/usr/share || die
 	fi
 }
